@@ -1,0 +1,64 @@
+## Dictation App
+
+% reset
+% matplotlib inline
+ 
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D # Import 3D plotting tool.
+import openpyxl
+
+# import the file and read it
+filename = 'example_patient.txt'; # save the filename that will be accessed
+
+file = pd.read_csv(filename, delimiter = ','); # read that file into this program
+
+print(file); # print the read file to make sure all of the data was captured accurately
+
+# create a new excel sheet and put the data into it with the top row as the header and the second row as the data
+
+writer1 = pd.ExcelWriter('output.xlsx') # this is the file that it will create
+
+df1 = pd.DataFrame(file) # first need to make sure the data is in a Panda DataFrame
+
+df1.to_excel(writer1,'Sheet1') # actually sends it to the first sheet in an excel document
+
+writer1.save() # saves what it did
+
+# instead of creating a whole new word document, write into an already existing excel file, which already 
+# has the headers
+
+# file_appended = pd.read_csv(filename, delimiter = ',', header = None, skiprows = 1)
+
+# writer2 = pd.ExcelWriter('example_patient_record.xlsx');
+
+# df2 = pd.DataFrame(file_appended);
+
+# df2.to_excel(writer2, 'Sheet1', startcol = 0 ,startrow = 1);
+
+# writer2.save();
+
+# a note: this actually just ends up creating an entirely new excel sheet
+
+fn = 'example_patient_record.xlsx'
+
+df = pd.read_excel(fn, header=None)
+df2 = pd.DataFrame(file_appended)
+
+df = pd.DataFrame(df)
+
+writer = pd.ExcelWriter(fn, engine='openpyxl')
+
+df.to_excel(writer, sheet_name='Sheet1', header=None, index=False, startcol=0, startrow=1)
+df2.to_excel(writer, sheet_name='Sheet1', header=None, index=False,
+             startcol=0,startrow=1)
+
+writer.save()
+
+# This is still buggy
+
+# It should be functioning, by appending an already created document with headers, but instead it seems to write over those
+# however, after that, it appends to that document, so just needs some tweaking
+# sorry I couldn't finish it perfectly
